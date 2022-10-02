@@ -6,50 +6,24 @@ import(
     "log"
     "fmt"
     "os"
-    "github.com/joho/godotenv"
     _ "github.com/go-sql-driver/mysql"
-    "github.com/jinzhu/gorm"
+    "strings"
 )
 
-// SQLConnect DB接続
-func sqlConnect() (database *gorm.DB, err error) {
-    DBMS := "mysql"
-    USER := os.Getenv("user")
-    PASS := os.Getenv("pass")
-    PROTOCOL := os.Getenv("protocol")
-    DBNAME := os.Getenv("dbname")
- 
-    CONNECT := USER + ":" + PASS + "@" + PROTOCOL + "/" + DBNAME + "?charset=utf8&parseTime=true&loc=Asia%2FTokyo"
-    return gorm.Open(DBMS, CONNECT)
-}
-
-type Words struct {
+type Word struct {
     ID int
     Word string
 }
 
 func main(){
-	err := godotenv.Load(".env")
-	if err != nil {
-		fmt.Printf("読み込み出来ませんでした: %v", err)
-	}
-    
-    db, err5 := sqlConnect()
-    if err5 != nil {
-        panic(err5.Error())
-    } else {
-        fmt.Println("DB接続成功")
-    }
+    //環境変数を読み込み
+    Loadenv()
+
+    //dbに接続
+    db := connectDb()
     defer db.Close()
-    error := db.Create(&Words{
-        ID:     3,
-        Word:   "hunya-",
-    }).Error
-    if error != nil {
-        fmt.Println(error)
-    } else {
-        fmt.Println("データ追加成功")
-    }
+
+    
     api := anaconda.NewTwitterApiWithCredentials(
     os.Getenv("access-token"), 
     os.Getenv("access-token-secret"),
@@ -60,7 +34,7 @@ func main(){
     params := url.Values{}
 	mentions, err2 := api.GetMentionsTimeline(params)
 	if err2 != nil {
-		log.Fatalf("Failed to get mentions: %s", err)
+		log.Fatalf("Failed to get mentions: %s", err2)
 	}
 
 
@@ -80,6 +54,15 @@ func main(){
                 flag = true
             }
         }
+        arr1 := strings.Split(mention.Text, " ")
+        text2 := ""
+        if len(arr1)>=2 {
+            text2 = arr1[1]
+        }
+        fmt.Println(text2)
+        var row Word
+        db.Where("word LIKE ?", "h"+"%").First(&row)
+        fmt.Println(row.Word)
         if flag {
             continue
         }
