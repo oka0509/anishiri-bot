@@ -19,7 +19,7 @@ func sqlConnect() (database *gorm.DB, err error) {
     return gorm.Open(DBMS, CONNECT)
 }
 
-func connectDb() (database *gorm.DB) {
+func ConnectDb() (database *gorm.DB) {
     db, err5 := sqlConnect()
     if err5 != nil {
         panic(err5.Error())
