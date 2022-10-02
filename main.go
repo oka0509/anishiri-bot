@@ -7,13 +7,7 @@ import(
     "fmt"
     "os"
     _ "github.com/go-sql-driver/mysql"
-    "strings"
 )
-
-type Word struct {
-    ID int
-    Word string
-}
 
 func main(){
     //環境変数を読み込み
@@ -32,37 +26,52 @@ func main(){
     )
 
     //自分への一連のメンションを取得
-    params := url.Values{}
-	mentions, err2 := api.GetMentionsTimeline(params)
+	mentions, err2 := api.GetMentionsTimeline(url.Values{})
 	if err2 != nil {
 		log.Fatalf("Failed to get mentions: %s", err2)
 	}
 
     //自分への各メンションについて返信する(またはしない)
     for _, mention := range mentions {
+
+        rs := []rune(mention.Text)
+        mentionExcludedText := ""
+        if len(rs) < 16 || string(rs[:16]) != "@testbot14878693" {
+            mentionExcludedText = mention.Text
+        } else {
+            for i, c :=range mention.Text {
+                if string(c) == " " {
+                    mentionExcludedText = string(rs[i+1:])
+                    break
+                } 
+            }
+        }
+        if mentionExcludedText == "" {
+            continue
+        }
+       // fmt.Println(mentionExcludedText)
+        rs2 := []rune(mentionExcludedText)
+       // fmt.Println(string(rs2[len(rs2)-1]))
         //既に返信済みであればcontinue
         if CheckReply(api, mention) {
             continue
         }
-
-        arr1 := strings.Split(mention.Text, " ")
-        text2 := ""
-        if len(arr1)>=2 {
-            text2 = arr1[1]
-        }
-        fmt.Println(text2)
-
         sending :=url.Values{}
         //できればmaxとりたい(どこまでいけるかは不明)
         sending.Add("count", "100")
         var row Word
-        db.Where("word LIKE ?", "h"+"%").First(&row)
+        db.Where("word LIKE ?", string(rs2[len(rs2)-1])+"%").First(&row)
         fmt.Println(row.Word)
         sending.Add("in_reply_to_status_id", mention.IdStr)
-        text := "@" + mention.User.ScreenName +" raaaaas"
+        text := "@" + mention.User.ScreenName + " " + row.Word
         _, err3 := api.PostTweet(text, sending)
         if err3 != nil {
             panic(err2)
         }
     } 
+}
+
+type Word struct {
+    ID int
+    Word string
 }
