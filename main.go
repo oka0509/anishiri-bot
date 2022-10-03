@@ -4,7 +4,7 @@ import(
 	"github.com/ChimeraCoder/anaconda"
     "net/url"
     "log"
-    _"fmt"
+    "fmt"
     "os"
     _ "github.com/go-sql-driver/mysql"
 )
@@ -38,29 +38,27 @@ func main(){
 
     //自分への各メンションについて返信する(またはしない)
     for _, mention := range mentions {
-        rs := []rune(mention.FullText)
-        mentionExcludedText := ""
-        if len(rs) < 16 || string(rs[:16]) != "@testbot14878693" {
-            mentionExcludedText = mention.Text
-        } else {
-            for i, c :=range mention.Text {
-                if string(c) == " " ||string(c) == "　" {
-                    mentionExcludedText = string(rs[i+1:])
-                    break
-                } 
-            }
-        }
-        if mentionExcludedText == "" {
-            continue
-        }
         //既に返信済みであればcontinue
         if CheckReply(api, mention) {
+            continue
+        }
+
+        rs := []rune(mention.FullText)
+        mentionExcludedText := ""
+        for i, c :=range mention.FullText {
+            if string(c) == " " ||string(c) == "　" {
+                mentionExcludedText = string(rs[i+1:])
+                break
+            } 
+        }
+        fmt.Println(mentionExcludedText) 
+        if mentionExcludedText == "" {
             continue
         }
         sending :=url.Values{}
         //できればmaxとりたい(どこまでいけるかは不明)
         sending.Add("count", "100")
-        var row Word
+        row :=Word{0, ""}
         rs2 := []rune(mentionExcludedText)
         db.Where("word LIKE ?", string(rs2[len(rs2)-1])+"%").First(&row)
         if row.Word == "" {
