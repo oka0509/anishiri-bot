@@ -4,10 +4,15 @@ import(
 	"github.com/ChimeraCoder/anaconda"
     "net/url"
     "log"
-    "fmt"
+    _"fmt"
     "os"
     _ "github.com/go-sql-driver/mysql"
 )
+
+type Word struct {
+    ID int
+    Word string
+}
 
 func main(){
     //環境変数を読み込み
@@ -33,14 +38,13 @@ func main(){
 
     //自分への各メンションについて返信する(またはしない)
     for _, mention := range mentions {
-
-        rs := []rune(mention.Text)
+        rs := []rune(mention.FullText)
         mentionExcludedText := ""
         if len(rs) < 16 || string(rs[:16]) != "@testbot14878693" {
             mentionExcludedText = mention.Text
         } else {
             for i, c :=range mention.Text {
-                if string(c) == " " {
+                if string(c) == " " ||string(c) == "　" {
                     mentionExcludedText = string(rs[i+1:])
                     break
                 } 
@@ -49,9 +53,6 @@ func main(){
         if mentionExcludedText == "" {
             continue
         }
-       // fmt.Println(mentionExcludedText)
-        rs2 := []rune(mentionExcludedText)
-       // fmt.Println(string(rs2[len(rs2)-1]))
         //既に返信済みであればcontinue
         if CheckReply(api, mention) {
             continue
@@ -60,8 +61,11 @@ func main(){
         //できればmaxとりたい(どこまでいけるかは不明)
         sending.Add("count", "100")
         var row Word
+        rs2 := []rune(mentionExcludedText)
         db.Where("word LIKE ?", string(rs2[len(rs2)-1])+"%").First(&row)
-        fmt.Println(row.Word)
+        if row.Word == "" {
+            continue
+        }
         sending.Add("in_reply_to_status_id", mention.IdStr)
         text := "@" + mention.User.ScreenName + " " + row.Word
         _, err3 := api.PostTweet(text, sending)
@@ -69,9 +73,4 @@ func main(){
             panic(err2)
         }
     } 
-}
-
-type Word struct {
-    ID int
-    Word string
 }
