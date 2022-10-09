@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  go:
+    build: # Use the Dockerfile from the current directory to build container.
+      context: .
+    container_name: go
+    ports: 
+      - "8080:8080"
+    depends_on: 
+      - "db"
+    environment:
+      MYSQL_HOST: d
+
+  
+  db:
+    image: mysql:latest # use latest version of mysql
+    container_name: db # add a name for the container
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    environment: # add default values, see docs for more info.
+      LANG: C.UTF-8
+      MYSQL_USER: user
+      MYSQL_ROOT_PASSWORD: mypassword
+      MYSQL_PASSWORD: mypassword
+      MYSQL_DATABASE: testdb # create this database on startup
+    volumes:
+      - ./initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - '3306:3306'
+ 
+volumes: # add volume to persist data.
+  my-db:
