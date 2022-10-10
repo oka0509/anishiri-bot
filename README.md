@@ -7,8 +7,8 @@
 
 # Installation
 ```
-git clone git@github.com:oka0509/shiritori-bot.git
-cd shiritori-bot
+git clone git@github.com:oka0509/anishiri-bot.git
+cd anishiri-bot
 ```
 直下に.envをおいてtwitter-apiのaccess_token等を設定
 ```
