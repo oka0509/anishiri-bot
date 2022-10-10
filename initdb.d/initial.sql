@@ -28,7 +28,7 @@ INSERT INTO words(word) VALUE("たまごっち");
 INSERT INTO words(word) VALUE("ちゅうにびょうでもこいがしたい");
 INSERT INTO words(word) VALUE("つきがきれい");
 INSERT INTO words(word) VALUE("てんしのすりーぴーす");
-INSERT INTO words(word) VALUE("とあるかがくのレールガン");
+INSERT INTO words(word) VALUE("とあるまじゅつのいんでっくす");
 INSERT INTO words(word) VALUE("なるにあこくものがたり");
 INSERT INTO words(word) VALUE("にせこい");
 INSERT INTO words(word) VALUE("ぬらりひょんのまご");
