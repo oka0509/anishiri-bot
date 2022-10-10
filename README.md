@@ -1,5 +1,5 @@
-# shiritori-bot
-しりとりをするtwitter-bot
+# anishiri-bot
+アニメの単語でしりとりをするtwitter-bot
 
 # Requirement
 * Dockerのインストール
