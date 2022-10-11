@@ -3,6 +3,7 @@ package internal
 import (
 	"github.com/ChimeraCoder/anaconda"
 	"net/url"
+	"os"
 )
 
 func CheckReply(api *anaconda.TwitterApi, mention anaconda.Tweet) (bool) {
@@ -15,7 +16,7 @@ func CheckReply(api *anaconda.TwitterApi, mention anaconda.Tweet) (bool) {
 	}
 	flag := false
 	for _, tweet :=range res.Statuses {
-		if tweet.User.ScreenName == "testbot14878693" && 
+		if tweet.User.ScreenName == os.Getenv("twitter_id") && 
 		tweet.InReplyToStatusID == mention.Id {
 			flag = true
 		}
