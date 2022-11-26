@@ -30,14 +30,13 @@ func Job() {
 	)
 
 	//自分への一連のメンションを取得
-	mentions, err2 := api.GetMentionsTimeline(url.Values{})
-	if err2 != nil {
-		log.Fatalf("Failed to get mentions: %s", err2)
+	mentions, err := api.GetMentionsTimeline(url.Values{})
+	if err != nil {
+		log.Fatalf("Failed to get mentions: %s", err)
 	}
 
 	fmt.Println(len(mentions))
 	//自分への各メンションについて返信する(またはしない)
-	check := false
 	for _, mention := range mentions {
 		//既に返信済みであればcontinue
 		if CheckReply(api, mention) {
@@ -65,16 +64,11 @@ func Job() {
 		}
 		sending.Add("in_reply_to_status_id", mention.IdStr)
 		text := "@" + mention.User.ScreenName + " " + row.Word
-		check = true
-		_, err3 := api.PostTweet(text, sending)
-		if err3 != nil {
+		_, err2 := api.PostTweet(text, sending)
+		if err2 != nil {
 			panic(err2)
 		}
 	}
-	if check {
-		fmt.Println("ok2")
-	} else {
-		fmt.Println("NG")
-	}
+
 	fmt.Println("Job")
 }

@@ -7,10 +7,10 @@ import (
 )
 
 func CheckReply(api *anaconda.TwitterApi, mention anaconda.Tweet) (bool) {
-	sending2 :=url.Values{}
+	sending :=url.Values{}
 	//できればmaxとりたい(どこまでいけるかは不明)
-	sending2.Add("count", "100")
-	res, err := api.GetSearch("@" + mention.User.ScreenName, sending2)
+	sending.Add("count", "100")
+	res, err := api.GetSearch("@" + mention.User.ScreenName, sending)
 	if err != nil {
 		panic(err)
 	}

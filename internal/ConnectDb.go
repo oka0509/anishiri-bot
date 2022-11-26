@@ -19,9 +19,9 @@ func sqlConnect() (database *gorm.DB, err error) {
 }
 
 func ConnectDb() (database *gorm.DB) {
-    db, err5 := sqlConnect()
-    if err5 != nil {
-        panic(err5.Error())
+    db, err := sqlConnect()
+    if err != nil {
+        panic(err.Error())
     } else {
         fmt.Println("DB接続成功")
     }
