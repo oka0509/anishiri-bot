@@ -14,8 +14,8 @@ cd anishiri-bot
 ```
 access_token=********
 access_token_secret=*************
-consumer_key=*************
-consumer_key_secret=**********
+api_key=*************
+api_key_secret=**********
 twitter_id=********　(@は除外)
 ```
 立ち上げ
