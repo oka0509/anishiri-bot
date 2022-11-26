@@ -6,7 +6,7 @@ import (
 )
 
 func Loadenv() {
-	err := godotenv.Load(".env")
+	err := godotenv.Load("local.env")
 	if err != nil {
 		fmt.Printf("読み込み出来ませんでした: %v", err)
 	}

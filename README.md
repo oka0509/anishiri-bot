@@ -10,7 +10,7 @@
 git clone git@github.com:oka0509/anishiri-bot.git
 cd anishiri-bot
 ```
-直下に.envファイルをおいてtwitter-apiのaccess_token等を設定
+直下にlocal.envファイルをおいてtwitter-apiのaccess_token等を設定
 ```
 access_token=********
 access_token_secret=*************
