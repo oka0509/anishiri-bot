@@ -22,7 +22,7 @@ INSERT INTO words(word) VALUE("このすば");
 INSERT INTO words(word) VALUE("さえないかのじょのそだてかた");
 INSERT INTO words(word) VALUE("しゃーろっと");
 INSERT INTO words(word) VALUE("すずめのとじまり");
-INSERT INTO words(word) VALUE("せいとかいのいちぞん");
+INSERT INTO words(word) VALUE("ぜろのつかいま");
 INSERT INTO words(word) VALUE("そらよりもとおいばしょ");
 INSERT INTO words(word) VALUE("たまごっち");
 INSERT INTO words(word) VALUE("ちゅうにびょうでもこいがしたい");
@@ -34,4 +34,19 @@ INSERT INTO words(word) VALUE("にせこい");
 INSERT INTO words(word) VALUE("ぬらりひょんのまご");
 INSERT INTO words(word) VALUE("ねとげのすすめ");
 INSERT INTO words(word) VALUE("のーげーむ・のーらいふ");
+INSERT INTO words(word) VALUE("まほうしょうじょまどかまぎか");
+INSERT INTO words(word) VALUE("みかくにんでしんこうけい");
+INSERT INTO words(word) VALUE("むしょくてんせい");
+INSERT INTO words(word) VALUE("めいどいんあびす");
+INSERT INTO words(word) VALUE("もんだいじたちがいせかいからくるようですよ");
+INSERT INTO words(word) VALUE("やがてきみになる");
+INSERT INTO words(word) VALUE("ゆるゆり");
+INSERT INTO words(word) VALUE("よじょうはんしんわたいけい");
+INSERT INTO words(word) VALUE("らきすた");
+INSERT INTO words(word) VALUE("りゅうおうのおしごと");
+INSERT INTO words(word) VALUE("るぱんさんせい");
+INSERT INTO words(word) VALUE("れくりえーたーず");
+INSERT INTO words(word) VALUE("ろしゃおへいせんき");
+INSERT INTO words(word) VALUE("わたしにてんしがまいおりた");
+
 
