@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/robfig/cron/v3"
 	"time"
-	"fmt"
 	"twitter-bot/internal"
 )
 
@@ -13,6 +12,5 @@ func main() {
 	c.Start()
 	for {
 		time.Sleep(10000000000000)
-		fmt.Println("sleep")
 	}
 }
