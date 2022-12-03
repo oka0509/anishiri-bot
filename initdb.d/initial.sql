@@ -22,7 +22,7 @@ INSERT INTO words(word) VALUE("このすば");
 INSERT INTO words(word) VALUE("さえないかのじょのそだてかた");
 INSERT INTO words(word) VALUE("しゃーろっと");
 INSERT INTO words(word) VALUE("すずめのとじまり");
-INSERT INTO words(word) VALUE("ぜろのつかいま");
+INSERT INTO words(word) VALUE("せんとちひろのかみかくし");
 INSERT INTO words(word) VALUE("そらよりもとおいばしょ");
 INSERT INTO words(word) VALUE("たまごっち");
 INSERT INTO words(word) VALUE("ちゅうにびょうでもこいがしたい");
