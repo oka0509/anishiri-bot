@@ -6,13 +6,13 @@ import (
 	"os"
 )
 
-func CheckReply(api *anaconda.TwitterApi, mention anaconda.Tweet) (bool) {
+func CheckReply(api *anaconda.TwitterApi, mention anaconda.Tweet) (bool, error) {
 	sending :=url.Values{}
 	//できればmaxとりたい(どこまでいけるかは不明)
 	sending.Add("count", "100")
 	res, err := api.GetSearch("@" + mention.User.ScreenName, sending)
 	if err != nil {
-		panic(err)
+		return false, err
 	}
 	flag := false
 	for _, tweet :=range res.Statuses {
@@ -21,5 +21,5 @@ func CheckReply(api *anaconda.TwitterApi, mention anaconda.Tweet) (bool) {
 			flag = true
 		}
 	}
-	return flag
+	return flag, nil
 }

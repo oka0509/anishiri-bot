@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/url"
 	"os"
+	"github.com/joho/godotenv"
 	"github.com/ChimeraCoder/anaconda"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -16,9 +17,16 @@ type Word struct {
 
 func Job() {
 	//環境変数を読み込み
-	Loadenv()
+	if err := godotenv.Load(".env"); err != nil {
+		log.Printf("環境変数の読み込みに失敗しました: %v", err)
+	}
+
 	//dbに接続
-	db := ConnectDb()
+	db, err:= ConnectDb()
+	if err != nil {
+		log.Printf("dbの接続に失敗しました: %s", err)
+		return
+	}
 	defer db.Close()
 
 	//認証・インスタンスを作成
@@ -30,15 +38,20 @@ func Job() {
 	)
 
 	//自分への一連のメンションを取得
-	mentions, err := api.GetMentionsTimeline(url.Values{})
-	if err != nil {
-		log.Fatalf("メンションの取得に失敗しました: %s", err)
+	mentions, err2 := api.GetMentionsTimeline(url.Values{})
+	if err2 != nil {
+		log.Printf("メンションの取得に失敗しました: %s", err2)
+		return
 	}
 
 	//自分への各メンションについて返信する(またはしない)
 	for _, mention := range mentions {
 		//既に返信済みであればcontinue
-		if CheckReply(api, mention) {
+		flag, err3:= CheckReply(api, mention)
+		if err3 != nil {
+			return
+		}
+		if(flag) {
 			continue
 		}
 		rs := []rune(mention.FullText)
@@ -61,18 +74,21 @@ func Job() {
 		if row.Word == "" {
 			sending.Add("in_reply_to_status_id", mention.IdStr)
 			text := "@" + mention.User.ScreenName + " " + "対応する単語がみつかりませんでした(末尾がひらがなの文字列のみに対応しています＞＜)"
-			_, err2 := api.PostTweet(text, sending)
-			if err2 != nil {
-				panic(err2)
+			_, err4 := api.PostTweet(text, sending)
+			if err4 != nil {
+				log.Printf("tweetの送信に失敗しました: %s", err4)
+				return
 			}
 		} else {
 			sending.Add("in_reply_to_status_id", mention.IdStr)
 			text := "@" + mention.User.ScreenName + " " + row.Word
-			_, err2 := api.PostTweet(text, sending)
-			if err2 != nil {
-				panic(err2)
+			_, err4 := api.PostTweet(text, sending)
+			if err4 != nil {
+				log.Printf("tweetの送信に失敗しました: %s", err4)
+				return
 			}		
 		}
 	}
+
 	fmt.Println("Job終了")
 }
