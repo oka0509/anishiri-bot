@@ -21,7 +21,7 @@ func Job() {
 	db := ConnectDb()
 	defer db.Close()
 
-	//認証・apiを作成
+	//認証・インスタンスを作成
 	api := anaconda.NewTwitterApiWithCredentials(
 		os.Getenv("access_token"),
 		os.Getenv("access_token_secret"),
@@ -32,10 +32,9 @@ func Job() {
 	//自分への一連のメンションを取得
 	mentions, err := api.GetMentionsTimeline(url.Values{})
 	if err != nil {
-		log.Fatalf("Failed to get mentions: %s", err)
+		log.Fatalf("メンションの取得に失敗しました: %s", err)
 	}
 
-	fmt.Println(len(mentions))
 	//自分への各メンションについて返信する(またはしない)
 	for _, mention := range mentions {
 		//既に返信済みであればcontinue
@@ -60,15 +59,20 @@ func Job() {
 		rs2 := []rune(mentionExcludedText)
 		db.Where("word LIKE ?", string(rs2[len(rs2)-1])+"%").First(&row)
 		if row.Word == "" {
-			continue
-		}
-		sending.Add("in_reply_to_status_id", mention.IdStr)
-		text := "@" + mention.User.ScreenName + " " + row.Word
-		_, err2 := api.PostTweet(text, sending)
-		if err2 != nil {
-			panic(err2)
+			sending.Add("in_reply_to_status_id", mention.IdStr)
+			text := "@" + mention.User.ScreenName + " " + "対応する単語がみつかりませんでした(末尾がひらがなの文字列のみに対応しています＞＜)"
+			_, err2 := api.PostTweet(text, sending)
+			if err2 != nil {
+				panic(err2)
+			}
+		} else {
+			sending.Add("in_reply_to_status_id", mention.IdStr)
+			text := "@" + mention.User.ScreenName + " " + row.Word
+			_, err2 := api.PostTweet(text, sending)
+			if err2 != nil {
+				panic(err2)
+			}		
 		}
 	}
-
-	fmt.Println("Job")
+	fmt.Println("Job終了")
 }
