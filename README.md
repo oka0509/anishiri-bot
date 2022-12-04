@@ -4,6 +4,8 @@
 メンションを飛ばしたアカウントにアニメの単語で返信する処理を1分ごとに実行します。
 
 ("@{アカウントid} なんとかかんとか"でツイート→"かけぐるい"で返信を返す)
+![zndxl-gvch7](https://user-images.githubusercontent.com/76876781/205491946-41d1cd51-eee7-44cf-953c-f94587773010.gif)
+
 # 開発環境構築
 * Dockerのインストール
 * ElevatedにアップグレードされたTwitterのDeveloperアカウントを用意
