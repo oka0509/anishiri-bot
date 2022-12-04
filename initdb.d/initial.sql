@@ -34,6 +34,11 @@ INSERT INTO words(word) VALUE("にせこい");
 INSERT INTO words(word) VALUE("ぬらりひょんのまご");
 INSERT INTO words(word) VALUE("ねとげのすすめ");
 INSERT INTO words(word) VALUE("のーげーむ・のーらいふ");
+INSERT INTO words(word) VALUE("はたらくさいぼう");
+INSERT INTO words(word) VALUE("ひょうか");
+INSERT INTO words(word) VALUE("ふぇありーている");
+INSERT INTO words(word) VALUE("へたりあ");
+INSERT INTO words(word) VALUE("ほりみや");
 INSERT INTO words(word) VALUE("まほうしょうじょまどかまぎか");
 INSERT INTO words(word) VALUE("みかくにんでしんこうけい");
 INSERT INTO words(word) VALUE("むしょくてんせい");
@@ -48,5 +53,3 @@ INSERT INTO words(word) VALUE("るぱんさんせい");
 INSERT INTO words(word) VALUE("れくりえーたーず");
 INSERT INTO words(word) VALUE("ろしゃおへいせんき");
 INSERT INTO words(word) VALUE("わたしにてんしがまいおりた");
-
-
