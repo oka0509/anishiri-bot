@@ -1,11 +1,11 @@
 package internal
 
 import (
-	"fmt"
 	"log"
 	"net/url"
 	"os"
 	"github.com/joho/godotenv"
+	"github.com/jinzhu/gorm"
 	"github.com/ChimeraCoder/anaconda"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -15,19 +15,11 @@ type Word struct {
 	Word string
 }
 
-func Job() {
+func Job(db *gorm.DB) {
 	//環境変数を読み込み
 	if err := godotenv.Load(".env"); err != nil {
 		log.Printf("環境変数の読み込みに失敗しました: %v", err)
 	}
-
-	//dbに接続
-	db, err:= ConnectDb()
-	if err != nil {
-		log.Printf("dbの接続に失敗しました: %s", err)
-		return
-	}
-	defer db.Close()
 
 	//認証・インスタンスを作成
 	api := anaconda.NewTwitterApiWithCredentials(
@@ -90,5 +82,5 @@ func Job() {
 		}
 	}
 
-	fmt.Println("Job終了")
+	log.Printf("Job終了")
 }
